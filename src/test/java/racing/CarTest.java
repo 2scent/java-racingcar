@@ -4,6 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CarTest {
@@ -30,11 +34,15 @@ public class CarTest {
         final int expected = 4;
 
         for (int i = 0; i < expected; i++) {
-            car.move();
+            car.tryMove();
         }
 
         final int distance = car.getDistance();
 
         assertThat(distance).isEqualTo(expected);
+        assertThat(car).
+    }
+
+    private void doRace(Iterator<Car> iterator) {
     }
 }

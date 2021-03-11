@@ -3,27 +3,40 @@ package racing;
 import java.util.*;
 
 public class RacingSimulator {
-    static final List<Driver> drivers = new ArrayList<>();
+    final private List<Round> rounds;
+    final private List<Car> cars;
+    final private int attemptsCount;
 
-    public static void main(String[] args) {
-        final RacingData data = showInputView();
-
-        populateDrivers(data.getCarsCount());
-
-        showResultView(data.copyWith(drivers));
-    }
-
-    private static RacingData showInputView() {
-        return new InputView().show();
-    }
-
-    private static void populateDrivers(int carsCount) {
+    public RacingSimulator(int carsCount, int attemptsCount) {
+        this.rounds = new ArrayList<>();
+        this.cars = new ArrayList<>();
         for (int i = 0; i < carsCount; i++) {
-            drivers.add(new Driver(new Car()));
+            this.cars.add(new Car());
+
+        }
+        this.attemptsCount = attemptsCount;
+    }
+
+    public void runRace() {
+        tryMoveCars();
+        rounds.add(Round.createFrom(cars));
+    }
+
+    private void tryMoveCars() {
+        for (Car car : cars) {
+            car.tryMove(() -> new Random().nextInt(10));
         }
     }
 
-    private static void showResultView(RacingData data) {
-        new ResultView().show(data);
+    public boolean hasNextRound() {
+        return rounds.size() < attemptsCount;
+    }
+
+    public void showResult() {
+        System.out.println("실행 결과");
+        for (Round round : rounds) {
+            round.showCars();
+        }
     }
 }
+
